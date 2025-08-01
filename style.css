@@ -391,6 +391,13 @@ section {
     min-height: auto;
 }
 
+/* Large screens adjustment */
+@media (min-width: 1920px) {
+    .hero-title {
+        font-size: clamp(2rem, 3vw, 2.8rem);
+    }
+}
+
 
 .hero .container {
     position: relative;
