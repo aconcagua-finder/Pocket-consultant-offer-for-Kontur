@@ -246,6 +246,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize tooltips after DOM is loaded
     initTooltips();
     
-    // Avatar tooltips are now handled purely with CSS using data-member-info attribute
+    // Handle member avatar tooltips on mobile
+    function initMemberTooltips() {
+        const memberAvatars = document.querySelectorAll('.member-avatar');
+        
+        memberAvatars.forEach(avatar => {
+            avatar.addEventListener('click', function(e) {
+                if ('ontouchstart' in window || window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close other avatars
+                    memberAvatars.forEach(otherAvatar => {
+                        if (otherAvatar !== avatar) {
+                            otherAvatar.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current avatar
+                    avatar.classList.toggle('active');
+                }
+            });
+        });
+        
+        // Close member tooltips when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.member-avatar')) {
+                memberAvatars.forEach(avatar => {
+                    avatar.classList.remove('active');
+                });
+            }
+        });
+    }
+    
+    initMemberTooltips();
 
 });

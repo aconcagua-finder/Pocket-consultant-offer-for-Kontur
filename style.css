@@ -175,14 +175,18 @@ p {
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     .tooltip-content {
-        position: fixed;
+        position: fixed !important;
         bottom: auto;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         min-width: 260px;
-        max-width: 90vw;
-        z-index: 99999;
+        max-width: calc(100vw - 40px);
+        max-height: calc(100vh - 40px);
+        z-index: 999999 !important;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 
+                    0 0 0 100vmax rgba(0, 0, 0, 0.4);
     }
     
     .tooltip-content::after {
@@ -191,6 +195,7 @@ p {
     
     .info-tooltip.active .tooltip-content {
         transform: translate(-50%, -50%);
+        z-index: 999999 !important;
     }
 }
 
@@ -227,38 +232,47 @@ p {
 
 /* Fix for benefit-2 tooltip appearing under other sections */
 .solution-part.external {
-    z-index: 1 !important;
+    z-index: 1;
 }
 
 .solution-part.external .solution-content {
-    z-index: 999 !important;
+    z-index: 2;
     position: relative;
 }
 
 .benefit-2 {
     position: relative;
-    z-index: 1000 !important;
+    z-index: 10;
 }
 
 .benefit-2 .info-tooltip {
-    z-index: 999999 !important;
-    position: relative !important;
+    z-index: 999999;
+    position: relative;
 }
 
 .benefit-2 .info-tooltip .tooltip-content {
-    z-index: 999999 !important;
-    bottom: calc(100% + 20px) !important;
+    z-index: 999999;
+    bottom: calc(100% + 20px);
 }
 
 /* Lower z-index of tool preview in external solution */
 .solution-part.external .solution-visual {
-    z-index: 0 !important;
+    z-index: 0;
     position: relative;
 }
 
 .solution-part.external .tool-preview {
-    z-index: 0 !important;
+    z-index: 0;
     position: relative;
+}
+
+/* Mobile specific fixes for benefit tooltips */
+@media (max-width: 768px) {
+    .benefit .info-tooltip .tooltip-content,
+    .benefit-2 .info-tooltip .tooltip-content {
+        position: fixed !important;
+        z-index: 999999 !important;
+    }
 }
 
 /* Ensure tooltips in ROI cards appear above other elements */
@@ -280,12 +294,20 @@ p {
 
 /* Force info tooltips in ROI section to be on top */
 .roi .info-tooltip {
-    z-index: 9999 !important;
-    position: relative !important;
+    z-index: 100;
+    position: relative;
 }
 
 .roi .info-tooltip .tooltip-content {
-    z-index: 99999 !important;
+    z-index: 999999;
+}
+
+/* Mobile specific ROI tooltip fixes */
+@media (max-width: 768px) {
+    .roi .info-tooltip .tooltip-content {
+        position: fixed !important;
+        z-index: 999999 !important;
+    }
 }
 
 /* Fix for benefit and mitigation sections */
@@ -342,6 +364,52 @@ section {
     position: relative;
     overflow: visible;
     transform: translateZ(0);
+}
+
+/* Global tooltip z-index hierarchy fix */
+.info-tooltip {
+    z-index: 100;
+}
+
+.info-tooltip .tooltip-content {
+    z-index: 999999;
+}
+
+/* Ensure cards don't overlap tooltips */
+.problem-card,
+.solution-visual,
+.roi-card,
+.risk-card,
+.timeline-card,
+.tool-preview {
+    position: relative;
+    z-index: 1;
+}
+
+/* Active tooltip override */
+.info-tooltip.active,
+.info-tooltip:hover {
+    z-index: 999998;
+}
+
+.info-tooltip.active .tooltip-content,
+.info-tooltip:hover .tooltip-content {
+    z-index: 999999;
+}
+
+/* Mobile specific: ensure all tooltips use fixed positioning */
+@media (max-width: 768px) {
+    .info-tooltip .tooltip-content {
+        position: fixed !important;
+        z-index: 999999 !important;
+    }
+    
+    /* Prevent viewport overflow */
+    .tooltip-content {
+        left: 50% !important;
+        transform: translateX(-50%) translateY(-50%) !important;
+        margin: 0 !important;
+    }
 }
 
 /* Base gradient overlay for all sections - DISABLED */
@@ -1953,6 +2021,35 @@ section {
 
 .member-avatar:hover {
     z-index: 10;
+}
+
+/* Mobile tooltip fixes for member avatars */
+@media (max-width: 768px) {
+    .member-avatar {
+        cursor: pointer;
+    }
+    
+    .member-avatar.active {
+        z-index: 999998;
+    }
+    
+    .member-avatar.active .member-tooltip {
+        position: fixed !important;
+        bottom: auto !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 999999 !important;
+        max-width: calc(100vw - 40px) !important;
+        opacity: 1;
+        visibility: visible;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 
+                    0 0 0 100vmax rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    .member-avatar.active .member-tooltip::after {
+        display: none;
+    }
 }
 
 /* Team hint tooltip styles */
