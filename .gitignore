@@ -1,0 +1,28 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Node modules (если будут добавлены)
+node_modules/
+
+# Compiled files
+*.min.css
+*.min.js
+
+# Environment files
+.env
+.env.local
